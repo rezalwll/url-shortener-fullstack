@@ -14,8 +14,11 @@ export function registerErrorHandler(app: FastifyInstance): void {
         ...(caught.details ? { details: caught.details } : {})
       });
     }
-    if ("validation" in caught && caught.validation) {
-      return reply.status(400).send({ error: "VALIDATION_ERROR", message: caught.message, requestId: request.id });
+    if (typeof caught === "object" && caught !== null && "validation" in caught && caught.validation) {
+      const message = "message" in caught && typeof caught.message === "string"
+        ? caught.message
+        : "request validation failed";
+      return reply.status(400).send({ error: "VALIDATION_ERROR", message, requestId: request.id });
     }
     request.log.error({ err: caught }, "unhandled request error");
     return reply.status(500).send({ error: "INTERNAL_ERROR", message: "unexpected service error", requestId: request.id });

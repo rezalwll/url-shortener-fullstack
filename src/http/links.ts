@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import type { CreateLinkInput } from "../domain/link.js";
-import { LinkService } from "../application/link-service.js";
+import type { LinkService } from "../application/link-service.js";
 import { clientKey } from "./client-key.js";
 import { schemas } from "./schemas.js";
 

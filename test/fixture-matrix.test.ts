@@ -1,5 +1,4 @@
 import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { normalizeTarget } from "../src/lib/url-policy.js";
 import { normalizeSlug } from "../src/lib/slug-policy.js";

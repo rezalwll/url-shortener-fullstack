@@ -1,0 +1,24 @@
+name: api-contract-drift
+
+on:
+  pull_request:
+    paths:
+      - "src/http/**"
+      - "src/app.ts"
+      - "contracts/**"
+
+permissions:
+  contents: read
+
+jobs:
+  openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run contract:export
+      - run: git diff --exit-code -- contracts/openapi.v1.json

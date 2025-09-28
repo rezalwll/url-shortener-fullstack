@@ -1,0 +1,10 @@
+{
+  "operations": [
+    "createLink",
+    "disableLink",
+    "followLink",
+    "getLink",
+    "getLinkStats",
+    "listLinks"
+  ]
+}

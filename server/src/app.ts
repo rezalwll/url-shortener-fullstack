@@ -1,5 +1,6 @@
 import express from "express";
 import urlRoutes from "./routes/urlRoutes";
+import redirectRoutes from "./routes/redirectRoutes";
 
 const app = express();
 
@@ -10,5 +11,6 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/urls", urlRoutes);
+app.use("/r", redirectRoutes);
 
 export default app;

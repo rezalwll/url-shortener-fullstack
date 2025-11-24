@@ -69,3 +69,33 @@ export async function createShortUrl(input: CreateUrlInput): Promise<UrlResponse
     expiresAt: created.expiresAt ?? null,
   };
 }
+
+export async function resolveAndTrack(code: string): Promise<UrlResponse> {
+  if (!code) {
+    throw new Error("shortCode is required");
+  }
+
+  const record = await prisma.url.findUnique({ where: { shortCode: code } });
+  if (!record) {
+    const notFound = new Error("Short URL not found");
+    (notFound as any).status = 404;
+    throw notFound;
+  }
+
+  if (record.expiresAt && record.expiresAt.getTime() < Date.now()) {
+    const expired = new Error("Short URL expired");
+    (expired as any).status = 410;
+    throw expired;
+  }
+
+  await prisma.url.update({
+    where: { id: record.id },
+    data: { clicks: { increment: 1 } },
+  });
+
+  return {
+    ...record,
+    shortUrl: `${BASE_URL}/r/${record.shortCode}`,
+    expiresAt: record.expiresAt ?? null,
+  };
+}

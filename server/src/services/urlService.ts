@@ -1,4 +1,5 @@
 import prisma from "../prisma";
+import { AppError } from "../middleware/errorHandler";
 import { generateShortCode } from "../utils/shortCode";
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
@@ -20,13 +21,12 @@ export interface UrlResponse {
 
 function assertValidUrl(value?: string): string {
   if (!value) {
-    throw new Error("originalUrl is required");
+    throw new AppError("originalUrl is required", 400);
   }
   try {
-    // Throws on invalid URL
     return new URL(value).toString();
   } catch {
-    throw new Error("originalUrl must be a valid URL");
+    throw new AppError("originalUrl must be a valid URL", 400);
   }
 }
 
@@ -34,7 +34,7 @@ function parseExpiresAt(value?: string | null): Date | null {
   if (!value) return null;
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
-    throw new Error("expiresAt must be a valid date string");
+    throw new AppError("expiresAt must be a valid date string", 400);
   }
   return date;
 }
@@ -47,7 +47,22 @@ async function ensureUniqueShortCode(): Promise<string> {
     if (!existing) return code;
     attempt += 1;
   }
-  throw new Error("Failed to generate unique short code");
+  throw new AppError("Failed to generate unique short code", 500);
+}
+
+function toResponse(record: {
+  id: number;
+  originalUrl: string;
+  shortCode: string;
+  clicks: number;
+  createdAt: Date;
+  expiresAt: Date | null;
+}): UrlResponse {
+  return {
+    ...record,
+    shortUrl: `${BASE_URL}/r/${record.shortCode}`,
+    expiresAt: record.expiresAt ?? null,
+  };
 }
 
 export async function createShortUrl(input: CreateUrlInput): Promise<UrlResponse> {
@@ -56,46 +71,37 @@ export async function createShortUrl(input: CreateUrlInput): Promise<UrlResponse
   const shortCode = await ensureUniqueShortCode();
 
   const created = await prisma.url.create({
-    data: {
-      originalUrl,
-      shortCode,
-      expiresAt,
-    },
+    data: { originalUrl, shortCode, expiresAt },
   });
 
-  return {
-    ...created,
-    shortUrl: `${BASE_URL}/r/${created.shortCode}`,
-    expiresAt: created.expiresAt ?? null,
-  };
+  return toResponse(created);
 }
 
 export async function resolveAndTrack(code: string): Promise<UrlResponse> {
   if (!code) {
-    throw new Error("shortCode is required");
+    throw new AppError("shortCode is required", 400);
   }
 
   const record = await prisma.url.findUnique({ where: { shortCode: code } });
   if (!record) {
-    const notFound = new Error("Short URL not found");
-    (notFound as any).status = 404;
-    throw notFound;
+    throw new AppError("Short URL not found", 404);
   }
 
   if (record.expiresAt && record.expiresAt.getTime() < Date.now()) {
-    const expired = new Error("Short URL expired");
-    (expired as any).status = 410;
-    throw expired;
+    throw new AppError("Short URL expired", 410);
   }
 
-  await prisma.url.update({
+  const updated = await prisma.url.update({
     where: { id: record.id },
     data: { clicks: { increment: 1 } },
   });
 
-  return {
-    ...record,
-    shortUrl: `${BASE_URL}/r/${record.shortCode}`,
-    expiresAt: record.expiresAt ?? null,
-  };
+  return toResponse(updated);
+}
+
+export async function listUrls(): Promise<UrlResponse[]> {
+  const records = await prisma.url.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+  return records.map(toResponse);
 }

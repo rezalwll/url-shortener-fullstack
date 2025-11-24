@@ -35,45 +35,52 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-5xl px-6 py-12 space-y-8">
-        <header>
-          <h1 className="text-3xl font-semibold">URL Shortener</h1>
-          <p className="mt-3 text-slate-700">
-            Create short links and track click stats.
+    <main className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-slate-50">
+      <div className="mx-auto max-w-6xl px-6 py-14 space-y-10">
+        <header className="space-y-3">
+          <p className="text-sm uppercase tracking-[0.2em] text-slate-400">
+            Tiny links, clear insights
+          </p>
+          <h1 className="text-4xl font-semibold text-white">URL Shortener</h1>
+          <p className="text-base text-slate-200 max-w-2xl">
+            Create concise links, track clicks, and manage expirations — all from one lightweight dashboard.
           </p>
         </header>
 
-        <section className="bg-white shadow-sm rounded-lg border border-slate-200 p-6">
-          <h2 className="text-xl font-semibold">Create a short URL</h2>
-          <p className="text-sm text-slate-600 mt-1">
-            Enter a valid URL and optionally set an expiration date.
-          </p>
-          <div className="mt-4">
-            <UrlForm onCreated={handleCreated} />
-          </div>
-        </section>
-
-        <section className="bg-white shadow-sm rounded-lg border border-slate-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold">Your URLs</h2>
-              <p className="text-sm text-slate-600 mt-1">
-                Latest links appear first.
-              </p>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <section className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-white">Create a short URL</h2>
+                <p className="text-sm text-slate-300 mt-1">
+                  Enter a valid URL and optionally set an expiration date.
+                </p>
+              </div>
             </div>
-            <button
-              onClick={fetchUrls}
-              className="text-sm font-medium text-slate-700 hover:text-slate-900"
-            >
-              Refresh
-            </button>
-          </div>
+            <div className="mt-4">
+              <UrlForm onCreated={handleCreated} />
+            </div>
+          </section>
 
-          <div className="mt-4">
-            <UrlTable urls={urls} loading={loading} error={error} />
-          </div>
-        </section>
+          <section className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-white">Your URLs</h2>
+                <p className="text-sm text-slate-300 mt-1">Latest links appear first.</p>
+              </div>
+              <button
+                onClick={fetchUrls}
+                className="text-sm font-medium text-slate-200 hover:text-white underline decoration-slate-400 decoration-dashed"
+              >
+                Refresh
+              </button>
+            </div>
+
+            <div className="mt-4">
+              <UrlTable urls={urls} loading={loading} error={error} />
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   );

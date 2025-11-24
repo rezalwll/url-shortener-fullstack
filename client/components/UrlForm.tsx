@@ -56,7 +56,7 @@ export default function UrlForm({ onCreated }: Props) {
   return (
     <form onSubmit={submit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-medium text-slate-200">
           Original URL
         </label>
         <input
@@ -64,25 +64,25 @@ export default function UrlForm({ onCreated }: Props) {
           required
           value={originalUrl}
           onChange={(e) => setOriginalUrl(e.target.value)}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+          className="mt-1 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2 text-slate-50 placeholder:text-slate-400 shadow-sm focus:border-white/30 focus:outline-none focus:ring-1 focus:ring-white/30"
           placeholder="https://example.com/page"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700">
+        <label className="block text-sm font-medium text-slate-200">
           Expires At (optional)
         </label>
         <input
           type="datetime-local"
           value={expiresAt}
           onChange={(e) => setExpiresAt(e.target.value)}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+          className="mt-1 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2 text-slate-50 placeholder:text-slate-400 shadow-sm focus:border-white/30 focus:outline-none focus:ring-1 focus:ring-white/30"
         />
       </div>
 
       {error && (
-        <div className="rounded-md bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
+        <div className="rounded-md bg-red-500/10 border border-red-400/40 px-3 py-2 text-sm text-red-200">
           {error}
         </div>
       )}
@@ -90,7 +90,7 @@ export default function UrlForm({ onCreated }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex items-center rounded-md bg-slate-900 px-4 py-2 text-white shadow-sm hover:bg-slate-800 disabled:opacity-50"
+        className="inline-flex items-center rounded-md bg-white text-slate-900 px-4 py-2 text-sm font-semibold shadow-sm hover:bg-slate-100 disabled:opacity-50"
       >
         {loading ? "Creating..." : "Create Short URL"}
       </button>

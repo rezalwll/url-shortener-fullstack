@@ -1,0 +1,5 @@
+{
+  "name": "private-ten",
+  "input": "http://10.10.2.4/admin",
+  "error": "private network"
+}

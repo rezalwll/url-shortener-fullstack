@@ -1,0 +1,5 @@
+{
+  "name": "private-172",
+  "input": "http://172.20.1.2/internal",
+  "error": "private network"
+}

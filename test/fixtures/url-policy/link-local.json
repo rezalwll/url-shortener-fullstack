@@ -1,0 +1,5 @@
+{
+  "name": "link-local",
+  "input": "http://169.254.169.254/latest",
+  "error": "private network"
+}

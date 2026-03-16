@@ -1,0 +1,5 @@
+{
+  "name": "non-web-protocol",
+  "input": "ftp://example.com/archive",
+  "error": "only http and https"
+}

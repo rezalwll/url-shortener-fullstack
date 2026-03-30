@@ -1,0 +1,5 @@
+{
+  "name": "fragment",
+  "input": "https://example.com/path?q=1#token",
+  "output": "https://example.com/path?q=1"
+}

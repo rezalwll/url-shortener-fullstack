@@ -1,0 +1,5 @@
+{
+  "name": "default-port",
+  "input": "https://Example.COM:443/a",
+  "output": "https://example.com/a"
+}

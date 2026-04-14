@@ -1,0 +1,5 @@
+{
+  "name": "international-host",
+  "input": "https://münich.example/path",
+  "output": "https://xn--mnich-kva.example/path"
+}

@@ -1,0 +1,5 @@
+{
+  "name": "ipv6-loopback",
+  "input": "http://[::1]/admin",
+  "error": "private network"
+}

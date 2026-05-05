@@ -1,0 +1,5 @@
+{
+  "name": "trim",
+  "input": "  launch-26  ",
+  "output": "launch-26"
+}

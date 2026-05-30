@@ -1,0 +1,5 @@
+{
+  "name": "whitespace",
+  "input": "launch now",
+  "error": "4-48"
+}

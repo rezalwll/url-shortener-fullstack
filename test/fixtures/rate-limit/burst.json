@@ -1,0 +1,15 @@
+{
+  "name": "burst",
+  "limit": 2,
+  "windowMs": 10000,
+  "attempts": [
+    0,
+    0,
+    0
+  ],
+  "allowed": [
+    true,
+    true,
+    false
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "exact-boundary",
+  "limit": 1,
+  "windowMs": 10000,
+  "attempts": [
+    0,
+    9999,
+    10000
+  ],
+  "allowed": [
+    true,
+    false,
+    true
+  ]
+}

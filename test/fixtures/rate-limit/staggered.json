@@ -1,0 +1,17 @@
+{
+  "name": "staggered",
+  "limit": 2,
+  "windowMs": 10000,
+  "attempts": [
+    0,
+    5000,
+    9999,
+    10001
+  ],
+  "allowed": [
+    true,
+    true,
+    false,
+    true
+  ]
+}

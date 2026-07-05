@@ -1,0 +1,15 @@
+{
+  "name": "single",
+  "limit": 1,
+  "windowMs": 1000,
+  "attempts": [
+    0,
+    999,
+    1000
+  ],
+  "allowed": [
+    true,
+    false,
+    true
+  ]
+}
